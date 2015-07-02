@@ -24,13 +24,13 @@ import javax.swing.JOptionPane;
 public class MainWindow extends Frame implements ActionListener, WindowListener {
 
 	final Integer width = 500;
-	final Integer height = 600;
+	final Integer height = 550;
 	private Button btn;
 	private Button execute = new Button("Insert timing points into difficulty!");
 	private Label addBeat = new Label("Add a timing point every");
-	private Label beat = new Label("beat");
-	private Label amount = new Label("Amount of timing points:");
-	private Label insertOffset = new Label("Insert starting offset:");
+	private Label beat = new Label("beat.");
+	private Label amount = new Label("Amount of timing points:              ");
+	private Label insertOffset = new Label("Insert starting offset:             ");
 	private Label vlmStrtLabel = new Label("Insert volume start value:");
 	private Label incrLabel = new Label("Insert volume increasing value (0 if none, negative works too):");
 	private TextField offsetStart = new TextField("000000");
