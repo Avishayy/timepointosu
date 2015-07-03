@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+
+  Contains extremely lazy code as it's not my project.
+
+-->
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 20px;
+            height: 100%;
+        }
+
+        .l {
+            line-height: 32px;
+        }
+
+        textarea {
+            display: block;
+            margin: 0 0 10px;
+            font-size: 13px;
+            line-height: 1.42857143;
+            color: #333;
+            word-break: break-all;
+            word-wrap: break-word;
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            min-height: 393px !important;
+            padding: 10px 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container main">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="row-x">
+            <div class="form-group col-md-6">
+                <select class="type form-control">
+                    <option value="1">Red Offset</option>
+                    <option value="0">Green Offset</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-6">
+                <select class="timings form-control">
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group col-md-12">
+                <div class="col-md-6 text-center l">
+                    Add a timing point every
+                </div>
+                <div class="col-md-6">
+                    <div class="input-group">
+                        <select class="snap form-control">
+                            <option value="1">1</option>
+                        </select>
+
+                        <div class="input-group-addon">beat</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-12">
+                <div class="col-md-6 text-center l">
+                    Amount of timing points
+                </div>
+                <div class="col-md-6">
+                    <input type="number" class="form-control amount" value="1" min="1">
+                </div>
+            </div>
+
+            <div class="form-group col-md-12">
+                <div class="col-md-6 text-center l">
+                    Insert starting offset
+                </div>
+                <div class="col-md-6">
+                    <input type="number" class="form-control offset" value="-1" min="1">
+                </div>
+            </div>
+
+            <div class="form-group col-md-12">
+                <div class="col-md-6 text-center l">
+                    Insert volume start value
+                </div>
+                <div class="col-md-6">
+                    <input type="number" class="form-control volStart" value="69" min="0" max="100">
+                </div>
+            </div>
+
+            <div class="form-group col-md-12">
+                <div class="col-md-6 text-center l">
+                    Insert volume increasing value
+                </div>
+                <div class="col-md-6">
+                    <input type="number" class="form-control volChange" value="0" min="0">
+                </div>
+            </div>
+
+            <div class="form-group col-md-12">
+                <div class="col-md-6 text-center">
+                    <button class="btn btn-primary updateBtn">Insert timing points</button>
+                </div>
+                <div class="col-md-6 text-center">
+                    <select class="exclude form-control">
+                        <option value="1">Exclude the first point</option>
+                        <option value="0">Do not exclude the first</option>
+                    </select>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <textarea class="well">
+    </textarea>
+</div>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
