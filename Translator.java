@@ -1,3 +1,4 @@
+package osutimingpoints;
 
 public class Translator {
 	

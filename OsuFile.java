@@ -1,3 +1,5 @@
+package osutimingpoints;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,7 +17,7 @@ public class OsuFile extends File {
 	}
 
 	public List<String> scanAndCut(List<String> schFor) {
-		List<String> found = new ArrayList<String>(schFor);
+		List<String> found = new ArrayList<>(schFor);
 		
 		for (Integer i = 0; i < found.size(); i++)
 			found.set(i, "");
@@ -36,7 +38,7 @@ public class OsuFile extends File {
 		return found;
 	}
 	public String getMapName() {
-		List<String> needed = new ArrayList<String>();
+		List<String> needed = new ArrayList<>();
 		needed.add("Title:");
 		needed.add("Artist:");
 		List<String> found = scanAndCut(needed);
@@ -44,16 +46,16 @@ public class OsuFile extends File {
 	}
 	
 	public String getDifficulty() {
-		List<String> needed = new ArrayList<String>();
+		List<String> needed = new ArrayList<>();
 		needed.add("Version:");
 		List<String> found = scanAndCut(needed);
 		return found.get(0);
 	}
 	
 	public List<List<Double>> getTimingsNBpm() {
-		List<List<Double>> timings = new ArrayList<List<Double>>();
+		List<List<Double>> timings = new ArrayList<>();
 		
-		List<String> points = new ArrayList<String>();
+		List<String> points = new ArrayList<>();
 		
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(this));
@@ -74,7 +76,7 @@ public class OsuFile extends File {
 		for (String str : points) {
 			String newStr = str.substring(str.indexOf(',')+1);
 			if(!newStr.startsWith("-")) {
-				List<Double> timing = new ArrayList<Double>();
+				List<Double> timing = new ArrayList<>();
 				timing.add(Double.parseDouble(str.substring(0, str.indexOf(','))));
 				timing.add(Double.parseDouble(newStr.substring(0, newStr.indexOf(','))));
 				timings.add(timing);
@@ -84,7 +86,7 @@ public class OsuFile extends File {
 	}
 	
 	public static List<String> createRedTimingPoints(Integer amount, Integer startOffset, Double bpm, Double snap, Integer volStart, Integer volChange) {
-		List<String> pointsAsText = new ArrayList<String>();
+		List<String> pointsAsText = new ArrayList<>();
 		
 		for(Integer i = 0; i < amount; i++) {
 			String point = "";
@@ -103,7 +105,7 @@ public class OsuFile extends File {
 	}
 	
 	public static List<String> createGreenTimingPoints(Integer amount, Integer startOffset, Double bpm, Double snap, Integer volStart, Integer volChange) { //TODO sv change
-		List<String> pointsAsText = new ArrayList<String>();
+		List<String> pointsAsText = new ArrayList<>();
 		for(Integer i = 0; i < amount; i++) {
 			String point = "";
 			point += ((int) (startOffset + (i * 60000/bpm * snap))) + ","; // offset
@@ -119,15 +121,14 @@ public class OsuFile extends File {
 		return pointsAsText;
 	}
 	public void addTimingPoints(List<String> points) {
-		List<String> fileContent = new ArrayList<String>();
+		List<String> fileContent = new ArrayList<>();
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(this));
 			String line = "";
 			while ((line = br.readLine()) != null) {
 				fileContent.add(line);
 				if (line.equals("[TimingPoints]")) {
-					for(String ab : points)
-						fileContent.add(ab);
+                                    points.stream().forEach((ab) ->  fileContent.add(ab));
 				}
 			}
 			br.close();

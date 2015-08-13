@@ -1,8 +1,10 @@
 // Shitty author is named Avishay
+package osutimingpoints;
 
 import java.awt.Button;
 import java.awt.Checkbox;
 import java.awt.Choice;
+import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Label;
@@ -15,6 +17,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -25,8 +29,8 @@ public class MainWindow extends Frame implements ActionListener, WindowListener 
 
 	final Integer width = 500;
 	final Integer height = 550;
-	private Button btn;
-	private Button execute = new Button("Insert timing points into difficulty!");
+	private Button diffPickBtn = new Button("Pick a new difficulty file");
+	private Button executeBtn = new Button("Insert timing points into difficulty!");
 	private Label addBeat = new Label("Add a timing point every");
 	private Label beat = new Label("beat.");
 	private Label amount = new Label("Amount of timing points:              ");
@@ -35,8 +39,8 @@ public class MainWindow extends Frame implements ActionListener, WindowListener 
 	private Label incrLabel = new Label("Insert volume increasing value (0 if none, negative works too):");
 	private TextField offsetStart = new TextField("000000");
 	private TextField lineAmount = new TextField("1");
-	private TextField mapName;
-	private TextField diffName;
+	private TextField mapName = new TextField("- Map Name -", 50);
+	private TextField diffName = new TextField("-- Difficulty name --", 25);
 	private TextField volStart = new TextField("69"); // so funny
 	private TextField volChange = new TextField("0");
 	private Choice typ = new Choice();
@@ -64,52 +68,31 @@ public class MainWindow extends Frame implements ActionListener, WindowListener 
 	
 	public MainWindow() {
 		setLayout(new FlowLayout(FlowLayout.LEFT, 45, 30)); //layout that arranges stuff from left to right
-		
+		setTitle("Timing points creator"); // frame title
+		setSize(width, height);
+                
 		typ.addItem("Red Offset");
 		typ.addItem("Green Offset");
-		
-		snappings.add("1");
-		snappings.add("1/2");
-		snappings.add("1/3");
-		snappings.add("1/4");
-		snappings.add("1/6");
-		snappings.add("1/8");
-		snappings.add("1/12");
-		snappings.add("1/16");
+                
+                snappings.add("1"); //adding timings to menu
+                Integer[] array = {2, 3, 4, 6, 8, 12, 16};
+		Arrays.stream(array).forEach(i -> snappings.add("1/" + i));
 		snappings.select(1); //default is 1/2
 		
-		mapName = new TextField("Map Name----------------------------------");
 		mapName.setEditable(false);
 		add(mapName); // adds textfield
-
-		diffName = new TextField("-- Difficulty name --");
+		
 		diffName.setEditable(false);
 		add(diffName); // ye 
 
-		btn = new Button("Pick a new difficulty file");
-		add(btn); // adds button
+		add(diffPickBtn); // adds button
 
-		btn.addActionListener(this);
-
-		setTitle("Timing points creator"); // frame title
-		setSize(width, height);
-
-		addWindowListener(this);
-
-		setVisible(true); // show the whole 'Frame'
-
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btn) { // loading button
-			int returnVal = fc.showOpenDialog(this);
-
+		diffPickBtn.addActionListener(l ->
+                { 	int returnVal = fc.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				file = new OsuFile(fc.getSelectedFile()
 						.getAbsolutePath());
-				System.out.println("File named " + file.getName()
-						+ " was loaded.");
+				System.out.println("File named " + file.getName() + " was loaded.");
 				mapName.setText(file.getMapName());
 				diffName.setText(file.getDifficulty());
 				setVisible(true);
@@ -118,9 +101,20 @@ public class MainWindow extends Frame implements ActionListener, WindowListener 
 
 			} else
 				System.out.println("File wasn't loaded.");
+                });
+
+		addWindowListener(this);
+
+		setVisible(true); // show the whole 'Frame'
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == diffPickBtn) { // loading button
+
 		}
 		
-		if (e.getSource() == execute) { // executing button
+		if (e.getSource() == executeBtn) { // executing button
 			Integer ptsAmount = Integer.parseInt(lineAmount.getText());
 			Integer startOffset = Integer.parseInt(offsetStart.getText());
 			Double bpm = Translator.translateBpm(file.getTimingsNBpm().get(typ.getSelectedIndex()).get(1));
@@ -224,9 +218,9 @@ public class MainWindow extends Frame implements ActionListener, WindowListener 
 		add(incrLabel);
 		add(volChange);
 		
-		add(execute);
+		add(executeBtn);
 		
-		execute.addActionListener(this);
+		executeBtn.addActionListener(this);
 		
 		excludeFirst.setState(true);
 		add(excludeFirst);
