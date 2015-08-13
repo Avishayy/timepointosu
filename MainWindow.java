@@ -1,11 +1,9 @@
 // Shitty author is named Avishay
 package osutimingpoints.timepointosu;
 
-import osutimingpoints.*;
 import java.awt.Button;
 import java.awt.Checkbox;
 import java.awt.Choice;
-import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.Label;
@@ -18,7 +16,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,15 +25,15 @@ import javax.swing.JOptionPane;
 @SuppressWarnings("serial")
 public class MainWindow extends Frame implements ActionListener, WindowListener {
 
-	final Integer width = 500;
-	final Integer height = 550;
+	final Integer width = 470;
+	final Integer height = 500;
 	private Button diffPickBtn = new Button("Pick a new difficulty file");
 	private Button executeBtn = new Button("Insert timing points into difficulty!");
 	private Label addBeat = new Label("Add a timing point every");
 	private Label beat = new Label("beat.");
-	private Label amount = new Label("Amount of timing points:");
+	private Label amount = new Label("Amount of timing points to be added:");
 	private Label insertOffset = new Label("Insert starting offset:");
-	private Label vlmStrtLabel = new Label("Insert volume start value:");
+	private Label vlmStrtLabel = new Label("Insert volume start value (percentages):");
 	private Label incrLabel = new Label("Insert volume increasing value (0 if none, negative works too):");
 	private TextField offsetStart = new TextField("000000");
 	private TextField lineAmount = new TextField("1");
@@ -68,7 +65,7 @@ public class MainWindow extends Frame implements ActionListener, WindowListener 
 	};
 	
 	public MainWindow() {
-		setLayout(new FlowLayout(FlowLayout.LEFT, 45, 30)); //layout that arranges stuff from left to right
+		setLayout(new FlowLayout(FlowLayout.CENTER, 30, 25)); //layout that arranges stuff from left to right
 		setTitle("Timing points creator"); // frame title
 		setSize(width, height);
                 
@@ -88,7 +85,7 @@ public class MainWindow extends Frame implements ActionListener, WindowListener 
 
 		add(diffPickBtn); // adds button
 
-		diffPickBtn.addActionListener(l ->
+		diffPickBtn.addActionListener((ActionEvent a) ->
                 { 	int returnVal = fc.showOpenDialog(this);
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
 				file = new OsuFile(fc.getSelectedFile()
@@ -111,26 +108,26 @@ public class MainWindow extends Frame implements ActionListener, WindowListener 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == executeBtn) { // executing button
-			Integer ptsAmount = Integer.parseInt(lineAmount.getText());
-			Integer startOffset = Integer.parseInt(offsetStart.getText());
-			Double bpm = Translator.translateBpm(file.getTimingsNBpm().get(typ.getSelectedIndex()).get(1));
-			Double snap = 1 / (double) (Integer.parseInt(snappings.getSelectedItem().substring(2)));
-			Integer volStartNum = Integer.parseInt(volStart.getText());
-			Integer volChangeNum = Integer.parseInt(volChange.getText());
-			
-			if (excludeFirst.getState() && typ.getSelectedIndex() == 0)
-				file.addTimingPoints(OsuFile.createRedTimingPoints(ptsAmount, (int) (startOffset + 60000/bpm * snap), bpm, snap, volStartNum, volChangeNum));
-			else if (!excludeFirst.getState() && typ.getSelectedIndex() == 0)
-				file.addTimingPoints(OsuFile.createRedTimingPoints(ptsAmount, startOffset, bpm, snap, volStartNum, volChangeNum));
-			else if (excludeFirst.getState() && typ.getSelectedIndex() == 1)
-				file.addTimingPoints(OsuFile.createGreenTimingPoints(ptsAmount, (int) (startOffset + 60000/bpm * snap), bpm, snap, volStartNum, volChangeNum));
-			else
-				file.addTimingPoints(OsuFile.createGreenTimingPoints(ptsAmount, startOffset, bpm, snap, volStartNum, volChangeNum));
-			
-			JOptionPane.showMessageDialog(this, "Done!", "Succesful insertion!", JOptionPane.OK_OPTION);
-		}
+            if (e.getSource() == executeBtn) { // executing button
+                    Integer ptsAmount = Integer.parseInt(lineAmount.getText());
+                    Integer startOffset = Integer.parseInt(offsetStart.getText());
+                    Double bpm = Translator.translateBpm(file.getTimingsNBpm().get(typ.getSelectedIndex()).get(1));
+                    Double snap = 1 / (double) (Integer.parseInt(snappings.getSelectedItem().substring(2)));
+                    Double nBpm = 60000/bpm * snap;
+                    Integer volStartNum = Integer.parseInt(volStart.getText());
+                    Integer volChangeNum = Integer.parseInt(volChange.getText());
 
+                    if (excludeFirst.getState() && typ.getSelectedIndex() == 0)
+                            file.addTimingPoints(OsuFile.createRedTimingPoints(ptsAmount, (int) (startOffset + nBpm), bpm, snap, volStartNum, volChangeNum));
+                    else if (!excludeFirst.getState() && typ.getSelectedIndex() == 0)
+                            file.addTimingPoints(OsuFile.createRedTimingPoints(ptsAmount, startOffset, bpm, snap, volStartNum, volChangeNum));
+                    else if (excludeFirst.getState() && typ.getSelectedIndex() == 1)
+                            file.addTimingPoints(OsuFile.createGreenTimingPoints(ptsAmount, (int) (startOffset + nBpm), bpm, snap, volStartNum, volChangeNum));
+                    else
+                            file.addTimingPoints(OsuFile.createGreenTimingPoints(ptsAmount, startOffset, bpm, snap, volStartNum, volChangeNum));
+
+                    JOptionPane.showMessageDialog(this, "Done!", "Succesful insertion!", JOptionPane.OK_OPTION);
+            }
 	}
 
 	public final void fileLoaded() {
