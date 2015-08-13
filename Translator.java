@@ -1,4 +1,6 @@
-package osutimingpoints;
+package osutimingpoints.timepointosu;
+
+import osutimingpoints.*;
 
 public class Translator {
 	
@@ -16,7 +18,7 @@ public class Translator {
 	
 	public static double translateBpm(Double bpm) { //translate peppy's weird bpm format to regular number
 		bpm = 100 * (600 / bpm); //normalBpm = 100 * 600 / peppyBpm ---> peppyBpm = 100 * 600 / normalBpm
-		if (bpm - (bpm).intValue() > 0.99999) //WHY DID PEPPY ROUND THE LAST 2 NUMBERS IN HIS BPM FORMAT, IT RUINS EVERYTHING
+		if (bpm - (bpm).intValue() > 0.99999) //WHY DID PEPPY ROUND THE LAST 2 DIGITS IN HIS BPM FORMAT, IT RUINS EVERYTHING
 			return bpm.intValue() + 1;
 		else if (bpm - bpm.intValue() < 0.00001)
 			return bpm.intValue();

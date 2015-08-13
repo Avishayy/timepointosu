@@ -1,6 +1,7 @@
 // Shitty author is named Avishay
-package osutimingpoints;
+package osutimingpoints.timepointosu;
 
+import osutimingpoints.*;
 import java.awt.Button;
 import java.awt.Checkbox;
 import java.awt.Choice;
@@ -33,8 +34,8 @@ public class MainWindow extends Frame implements ActionListener, WindowListener 
 	private Button executeBtn = new Button("Insert timing points into difficulty!");
 	private Label addBeat = new Label("Add a timing point every");
 	private Label beat = new Label("beat.");
-	private Label amount = new Label("Amount of timing points:              ");
-	private Label insertOffset = new Label("Insert starting offset:             ");
+	private Label amount = new Label("Amount of timing points:");
+	private Label insertOffset = new Label("Insert starting offset:");
 	private Label vlmStrtLabel = new Label("Insert volume start value:");
 	private Label incrLabel = new Label("Insert volume increasing value (0 if none, negative works too):");
 	private TextField offsetStart = new TextField("000000");
@@ -110,10 +111,6 @@ public class MainWindow extends Frame implements ActionListener, WindowListener 
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == diffPickBtn) { // loading button
-
-		}
-		
 		if (e.getSource() == executeBtn) { // executing button
 			Integer ptsAmount = Integer.parseInt(lineAmount.getText());
 			Integer startOffset = Integer.parseInt(offsetStart.getText());
@@ -136,7 +133,7 @@ public class MainWindow extends Frame implements ActionListener, WindowListener 
 
 	}
 
-	public void fileLoaded() {
+	public final void fileLoaded() {
 		add(typ);
 		
 		timings.removeAll();
@@ -226,8 +223,6 @@ public class MainWindow extends Frame implements ActionListener, WindowListener 
 		add(excludeFirst);
 		
 		setVisible(true);
-		
-		System.out.println();
 		
 		
 	}
