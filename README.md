@@ -1,3 +1,5 @@
+My first attempt of doing GUI stuff, it's probably bad, code too.
+
 Just open the .exe and load the file.
 
 Afterwards it will look like this:
